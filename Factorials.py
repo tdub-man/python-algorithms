@@ -11,7 +11,7 @@ def productSequence(m,n,rule=(lambda n: n),inc=1):
     res = 1
     while m <= n:
         res = res * rule(m)
-        print("{0} : {1}".format(str(res),m))
+        # print("{0} : {1}".format(m,str(res)))
         m += inc
     return res
 def factorial(n):
@@ -35,9 +35,12 @@ def processSequence(m,n,
                     rule=(lambda n: n),
                     inc=(lambda n: n+1),
                     coeff=1):
+    count = 0
     while m <= n:
         baseVal = oper(baseVal,rule(m))
-        print("{1} : {0}".format(m,coeff*baseVal.value()*4))
+        # print("{0} : {1}".format(m,coeff*baseVal.value()*4))
+        print(count)
+        count += 1
         m = inc(m)
     return baseVal
 def machin(n):
@@ -50,12 +53,13 @@ def machin(n):
     return a.multiply(b.subtract(c))
 def chudnovsky(n):
     # Chudnovsky's Formula
-    a = rational(pow(-1,n),1)
-    b = rational(productSequence(1,6*n),1)
-    c = rational(1,pow(productSequence(1,n),3)*productSequence(1,3*n))
-    d = rational(13591409+(545140134*n),pow(640320,3*n))
-    return a.multiply(b.multiply(c.multiply(d)))
-chudCoeff = decimal.Decimal(sqrt(10005))/decimal.Decimal(4270934400)
+    num = pow(-1,n) * productSequence(1,6*n) * ((545140134*n)+13591409)
+    den = productSequence(1,3*n) * pow(productSequence(1,n),3) * decimal.Decimal.sqrt(pow(640320,3*(2*n+1)))
+    # a = rational(pow(-1,n),1)
+    # b = rational(productSequence(1,6*n),1)
+    # c = rational(1,pow(productSequence(1,n),3)*productSequence(1,3*n))
+    # d = rational(13591409+(545140134*n),pow(640320,3*n))
+    return rational(num,den)
 def main():
     # print(productSequence(1,4))
     # print(factorial(4))
@@ -68,13 +72,15 @@ def main():
     decimal.getcontext().prec = 3000
     decimal.getcontext().Emax = 999999999999999999
     a = decimal.Decimal(0)
-    b = decimal.Decimal(1E3)
+    b = decimal.Decimal(500)
     op = lambda x,y: x.add(y)
     r = lambda x: x
-    print(processSequence(m=a,n=b,
+    pi = processSequence(m=a,n=b,
                           oper=op,
                           baseVal=rational(0,1),
-                          rule=machin)
+                          rule=chudnovsky,
+                          coeff=12).value()
+    print(pow(12*pi,-1))
 
 if __name__ == '__main__':
     main()
