@@ -29,6 +29,12 @@ def quadrupleFactorial(n):
 def superFactorial(n):
     return productSequence(1,n,factorial)
 
+# General method for processing a number sequence
+# Processes numbers from m to n, incrementing by inc
+# oper defines the type of sequence, e.g. product or summation
+# baseVal is the starting point of the total, usually not affecting the total,
+# e.g. 1 for product sequence or 0 for summation
+# rule applies to each number processed, like (Xi)^2
 def processSequence(m,n,
                     oper=(lambda x,y: x+y),
                     baseVal=0,
