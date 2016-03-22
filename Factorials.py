@@ -1,10 +1,4 @@
 from functools import reduce
-from math import e as E
-from math import pi as PI
-from math import log
-from math import sqrt
-import decimal
-from Rationals import rational
 from Sequences import productSequence
 def factorial(n):
     if n==0:

@@ -23,7 +23,7 @@ def processSequence(m,n,
     while m <= n:
         baseVal = oper(baseVal,rule(m))
         # print("{0} : {1}".format(m,coeff*baseVal.value()*4))
-        print(count)
+        # print(count)
         count += 1
         m = inc(m)
     return baseVal
