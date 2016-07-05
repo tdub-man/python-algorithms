@@ -46,6 +46,7 @@ def listToDict(list):
     # Takes list of tuples of size 2
     # Uses first element of each tuple as key
     # Adds the other elements to the value
+    # Accounts for "duplicate keys" unlike dict(list)
     keys = set([x[0] for x in list])
     d = dict([(x,0) for x in keys])
     for x in list:
@@ -54,4 +55,4 @@ def listToDict(list):
 modProb = listToDict(zip(sumMod11,stat))
 # print(modProb)
 for x,y in modProb.items():
-    print("{0}: {1}".format(x,100*y/216.0))
+    print("{0}: {1}, {2}".format(x,y,100*y/216.0))
