@@ -1,11 +1,10 @@
 from urllib import request
-import subprocess
+from subprocess import call as s_call
 from bs4 import BeautifulSoup
 from itertools import count
-import shutil
-import os
+from shutil import move as mv
+from os import getcwd,chdir
 from tempfile import TemporaryDirectory as tDir
-# from functools import partial
 
 
 def parseChaps(source):
@@ -15,18 +14,18 @@ def parseChaps(source):
         return listLinks
 def toPDF(chapRoot,chaps,bookName):
     with tDir() as t:
-        startDir = os.getcwd()
-        os.chdir(t)
+        startDir = getcwd()
+        chdir(t)
         for c,i in zip(chaps,count()):
-            subprocess.call(["echo","Converting " + chapRoot + c])
-            subprocess.call(["wkhtmltopdf", chapRoot + c, "Part-{:02d}.pdf".format(i)])
+            s_call(["echo","Converting " + chapRoot + c])
+            s_call(["wkhtmltopdf", chapRoot + c, "Part-{:02d}.pdf".format(i)])
         pdfName = "{0}.pdf".format(bookName)
         args = ["gs","-dBATCH","-dNOPAUSE","-q",
             "-sDEVICE=pdfwrite","-dPDFSETTINGS=/prepress",
             "-sOutputFile="+pdfName,"*.pdf"]
-        subprocess.call(["echo","\nJoining PDF's..."])
-        subprocess.call(" ".join(args),shell=True)
-        shutil.move(pdfName,startDir)
+        s_call(["echo","\nJoining PDF's..."])
+        s_call(" ".join(args),shell=True)
+        mv(pdfName,startDir)
 
 def testCL():
     cl = "http://www.gigamonkeys.com/book/"
